@@ -105,7 +105,11 @@ summary(interaction.SDSR)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # ANOVAs: Domain(Monetary vs. Social) x Accuracy(correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
 # - ran this analysis for left ventral striatum (vsl), vsr, dsl, dsr
-# - 
+# - found main effect of accuracy for each region; main effect of domain and & NM also for RVS
+# - no interactions
+# - to decompose ME of NM for RVS, combine domains and re-do 2way with NM & Accuracy?
+# -- then if you find significant relationships there, combine Accuracy? 
+# -- OR, to decompose ME of NM for RVS, combine accuracy and redo 2way with NM & Domain;
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Left Ventral Striatum
