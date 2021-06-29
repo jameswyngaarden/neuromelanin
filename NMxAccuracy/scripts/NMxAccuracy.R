@@ -103,36 +103,78 @@ summary(interaction.SDSR)
 #abline(lm(df2$SDSR_avg ~ df2$NM))
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# ANOVAs: Domain(Monetary vs. Social) x Accuracy(correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
+# ANOVAs: Domain (Monetary vs. Social) x Accuracy (correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
 # - ran this analysis for left ventral striatum (vsl), vsr, dsl, dsr
 # - found main effect of accuracy for each region; main effect of domain and & NM also for RVS
-# - no interactions
-# - to decompose ME of NM for RVS, combine domains and re-do 2way with NM & Accuracy?
-# -- then if you find significant relationships there, combine Accuracy? 
-# -- OR, to decompose ME of NM for RVS, combine accuracy and redo 2way with NM & Domain;
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Left Ventral Striatum
 three.way.VSL <- aov(VSL ~ NM + Acc + Domain, data = df3)
-interaction.VSL <- aov(VSL ~ NM * Acc * Domain, data = df3)
+interaction.VSL <- aov(VSL ~ NM * Acc * Domain * Age, data = df3)
 summary(three.way.VSL)
 summary(interaction.VSL)
 
 # Right Ventral Striatum
 three.way.VSR <- aov(VSR ~ NM + Acc + Domain, data = df3)
-interaction.VSR <- aov(VSR ~ NM * Acc * Domain, data = df3)
+interaction.VSR <- aov(VSR ~ NM * Acc * Domain * Age, data = df3)
 summary(three.way.VSR)
 summary(interaction.VSR)
 
+# RVS EMMs
+library("emmeans")
+library(ggplot2)
+
+(frg <- ref_grid(interaction.VSR))
+emmeans(frg, "NM")
+emmeans(frg, "Acc")
+emmeans(frg, "Domain")
+emmeans(frg, "Age")
+
+# scatterplot for NM and average RVS
+plot(df2$NM, df2$VSR,
+     main = "Neuromelanin and RVS reward activation",
+     xlab = "Neuromelanin Signal",
+     ylab = "Percent signal change, RVS activation",
+     col = "blue")
+abline(lm(df2$VSR ~ df2$NM))
+
+VSR_cor <- cor.test(df2$NM, df2$VSR, method = "pearson")
+VSR_cor
+
+# plot of estimated marginal means for Accuracy (avg across domain) & average RVS
+Acc.levels <- c("Incorrect", "Correct")
+Acc.emmeans <- c(-0.0354, 0.0505)
+Acc.emmeans.df <- data.frame(Acc.levels, Acc.emmeans)
+
+VSR_Acc_plot <- ggplot(Acc.emmeans.df, aes(x=Acc.levels, y=Acc.emmeans)) + 
+  ggtitle("RVS activation by Accuracy")+
+  xlab("Accuracy")+ylab("Percent signal change, RVS activation")+
+  geom_col(fill = "lightblue")+
+  geom_errorbar(aes(ymin=Acc.emmeans-0.0145, ymax=Acc.emmeans+0.0145), width=.2)
+VSR_Acc_plot
+
+# plot of estimated marginal means for Domain (avg across accuracy) & average RVS
+Dom.levels <- c("Monetary", "Social")
+Dom.emmeans <- c(-0.0189, 0.0340)
+Dom.emmeans.df <- data.frame(Dom.levels, Dom.emmeans)
+
+VSR_Dom_plot <- ggplot(Dom.emmeans.df, aes(x=Dom.levels, y=Dom.emmeans)) + 
+  ggtitle("RVS activation by Domain")+
+  xlab("Domain")+ylab("Percent signal change, RVS activation")+
+  geom_col(fill = "lightgreen")+
+  geom_errorbar(aes(ymin=Dom.emmeans-0.0145, ymax=Dom.emmeans+0.0145), width=.2)
+VSR_Dom_plot
+
+
 # Left Dorsal Striatum
 three.way.DSL <- aov(DSL ~ NM + Acc + Domain, data = df3)
-interaction.DSL <- aov(DSL ~ NM * Acc * Domain, data = df3)
+interaction.DSL <- aov(DSL ~ NM * Acc * Domain * Age, data = df3)
 summary(three.way.DSL)
 summary(interaction.DSL)
 
 # Right Dorsal Striatum
 three.way.DSR <- aov(DSR ~ NM + Acc + Domain, data = df3)
-interaction.DSR <- aov(DSR ~ NM * Acc * Domain, data = df3)
+interaction.DSR <- aov(DSR ~ NM * Acc * Domain * Age, data = df3)
 summary(three.way.DSR)
-summary(interaction.DSR)
+
 
