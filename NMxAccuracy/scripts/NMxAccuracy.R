@@ -11,9 +11,14 @@ library("readxl")
 # import data
 df <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
+df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova3way.xlsx")
 head(df)
 summary(df)
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# ANOVAs: Accuracy(correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
+# - ran this analysis for monetary left ventral striatum (mvsl), mvsr, sdsl, sdsr
+# - for significant main effect of NM: combined accuracy (averaged together) and looked at linear relationship between NM & Accuracy
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Monetary: Left Ventral Striatum
 
@@ -98,5 +103,32 @@ summary(interaction.SDSR)
 #abline(lm(df2$SDSR_avg ~ df2$NM))
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# ANOVAs: Domain(Monetary vs. Social) x Accuracy(correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
+# - ran this analysis for left ventral striatum (vsl), vsr, dsl, dsr
+# - 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+# Left Ventral Striatum
+three.way.VSL <- aov(VSL ~ NM + Acc + Domain, data = df3)
+interaction.VSL <- aov(VSL ~ NM * Acc * Domain, data = df3)
+summary(three.way.VSL)
+summary(interaction.VSL)
+
+# Right Ventral Striatum
+three.way.VSR <- aov(VSR ~ NM + Acc + Domain, data = df3)
+interaction.VSR <- aov(VSR ~ NM * Acc * Domain, data = df3)
+summary(three.way.VSR)
+summary(interaction.VSR)
+
+# Left Dorsal Striatum
+three.way.DSL <- aov(DSL ~ NM + Acc + Domain, data = df3)
+interaction.DSL <- aov(DSL ~ NM * Acc * Domain, data = df3)
+summary(three.way.DSL)
+summary(interaction.DSL)
+
+# Right Dorsal Striatum
+three.way.DSR <- aov(DSR ~ NM + Acc + Domain, data = df3)
+interaction.DSR <- aov(DSR ~ NM * Acc * Domain, data = df3)
+summary(three.way.DSR)
+summary(interaction.DSR)
 
