@@ -8,6 +8,8 @@ datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/")
 library("readxl")
 #library("ggpubr")
 
+install.packages("readxl")
+
 # import data
 df <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
@@ -149,7 +151,7 @@ Acc.emmeans.df <- data.frame(Acc.levels, Acc.emmeans)
 VSR_Acc_plot <- ggplot(Acc.emmeans.df, aes(x=Acc.levels, y=Acc.emmeans)) + 
   ggtitle("RVS activation by Accuracy")+
   xlab("Accuracy")+ylab("Percent signal change, RVS activation")+
-  geom_col(fill = "lightblue")+
+  geom_col(fill = "lightgreen")+
   geom_errorbar(aes(ymin=Acc.emmeans-0.0145, ymax=Acc.emmeans+0.0145), width=.2)
 VSR_Acc_plot
 
