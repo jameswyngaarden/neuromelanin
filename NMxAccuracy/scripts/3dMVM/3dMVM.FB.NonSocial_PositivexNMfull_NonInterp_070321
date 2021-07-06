@@ -1,0 +1,144 @@
+#!/bin/tcsh
+
+
+#######################################################
+# SCRIPT SUMMARY
+#######################################################
+# This script was written to run 3dMVM on the 4-run version of social doors 
+# Task: Social: Receiving feedback	
+
+# To run this script and caputure output appropriately, use the folloCorrectg command:
+# tcsh -xef 3dMVM.FB.NonSocial_PositivexNMvstri_NonInterp_052321 |& tee 3dMVM.FB.NonSocial_PositivexNMvstri_NonInterp_052321.output
+
+# - This analysis was run using newly geinerated NM data from the mask from Cliff's prior paper that correspond with ventral striatal dopamine release
+# - The newly generated NM data were derived by Jimmy W on 12/14/20, using a script that ensures subject specific data are pulled using the matlab index
+# - Incorrect data had previously been pulled because the script called on all data within a directory, agnostic to subject number
+# - These results are based on data that we do not feel fully confident in yet - they are correlated .99 with prior analyses, but after SANS submission Jimmy will
+# be starting 'fresh' with analyses and getting confirmation from Cliff that all is well.
+# 
+# - Subject 3854 was not inculded due to poor functional data. 
+# - The following subjects are presumably  missing NM (although this should be confirmed): 3874, 3989, 4011, 4069, 6003, 6004, 6005, 6006, 6007, are omitted from analyes
+#
+# [Feb. 23, 2021] JW: 
+# - Updated with newly-generated, from-scratch NM data from Feb. 2021; started process from non-normalized dicom images & included additional steps (e.g., realignment). 
+# - Problem of matching data to subjects in previous run was addressed by re-directing the script from the data directory to the scan_key within the script (more on this on the slab NM preprocessing page)
+# - Subject exclusions due to poor fmri data and missing NM scans are consistent with this updated run
+# - NMvstri values reflect NM signal in the 305 voxel submask from Cliff's paper (/STUDIES/nm_jw/data/RVSTdeltaSpearman05.nii)
+
+# [March 24, 2021] JW:
+# - Updated with corrected NM values; previous values had many negative numbers, prompted us to look at the script in Matlab and see that it was calculating averages incorrectly. 
+#
+# [March 30, 2021] JW:
+# - Found nothing interesting in last week's analysis; now swapping Valence out for Domain 
+#
+# [May 23, 2021] JW:
+# - NonSocial!
+#
+############################################################################################
+# GENERAL SETUP
+############################################################################################
+
+
+# Specify the top-most directory associated with the study
+set topdir = /data/projects/STUDIES/Social_Doors/TaskVersion_4Runs/Social_Doors_CollegeSBU/fMRI_ANALYSES
+
+# Specify the directory where subjects' neuroimaging data are located
+set subjdata = $topdir/IndvlLvlAnalyses
+
+# Specify the directory where the group analysis results will be written
+set resultsdir = $topdir/GroupLvlAnalyses/3dMVM/NM
+
+# Specify the name of the results file
+set results = 3dMVM.FB.NonSocial_PositivexNMfull_NonInterp_070321
+
+cd $resultsdir
+
+
+
+3dMVM																				\
+ -prefix $results																		\
+ -jobs 11																			\
+ -wsVars 'Outcome'																		\
+ -bsVars 'NMfull'																		\
+ -qVars 'NMfull'																		\
+ -num_glt 6																			\
+-gltLabel 1 Incorrect						-gltCode 1 'Outcome : +1*Incorrect'								\
+-gltLabel 2 Correct						-gltCode 2 'Outcome : +1*Correct'								\
+-gltLabel 3 Correct.V.Incorrect					-gltCode 3 'Outcome : +1*Correct -1*Incorrect'							\
+-gltLabel 4 Incorrect_NMfull					-gltCode 4 'Outcome : +1*Incorrect NMfull : '							\
+-gltLabel 5 Correct_NMfull					-gltCode 5 'Outcome : +1*Correct NMfull : '							\
+-gltLabel 6 Correct.V.Incorrect_NMfull				-gltCode 6 'Outcome : +1*Correct -1*Incorrect NMfull : '					\
+-dataTable																			\
+Subj		NMfull			Outcome			InputFile											\
+s3836		7.014983411		Incorrect		$subjdata/s3836/s3836.results.doors.1mm/stats.s3836+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3836		7.014983411		Correct			$subjdata/s3836/s3836.results.doors.1mm/stats.s3836+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3845		5.283762746		Incorrect		$subjdata/s3845/s3845.results.doors.1mm/stats.s3845+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3845		5.283762746		Correct			$subjdata/s3845/s3845.results.doors.1mm/stats.s3845+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3846		11.89285005		Incorrect		$subjdata/s3846/s3846.results.doors.1mm/stats.s3846+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3846		11.89285005		Correct			$subjdata/s3846/s3846.results.doors.1mm/stats.s3846+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3847		7.470071555		Incorrect		$subjdata/s3847/s3847.results.doors.1mm/stats.s3847+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3847		7.470071555		Correct			$subjdata/s3847/s3847.results.doors.1mm/stats.s3847+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3848		9.892294938		Incorrect		$subjdata/s3848/s3848.results.doors.1mm/stats.s3848+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3848		9.892294938		Correct			$subjdata/s3848/s3848.results.doors.1mm/stats.s3848+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3849		10.03014694		Incorrect		$subjdata/s3849/s3849.results.doors.1mm/stats.s3849+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3849		10.03014694		Correct			$subjdata/s3849/s3849.results.doors.1mm/stats.s3849+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3851		6.342077499		Incorrect		$subjdata/s3851/s3851.results.doors.1mm/stats.s3851+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3851		6.342077499		Correct			$subjdata/s3851/s3851.results.doors.1mm/stats.s3851+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3852		4.688248938		Incorrect		$subjdata/s3852/s3852.results.doors.1mm/stats.s3852+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3852		4.688248938		Correct			$subjdata/s3852/s3852.results.doors.1mm/stats.s3852+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3855		10.41813013		Incorrect		$subjdata/s3855/s3855.results.doors.1mm/stats.s3855+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3855		10.41813013		Correct			$subjdata/s3855/s3855.results.doors.1mm/stats.s3855+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3864		8.201286165		Incorrect		$subjdata/s3864/s3864.results.doors.1mm/stats.s3864+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3864		8.201286165		Correct			$subjdata/s3864/s3864.results.doors.1mm/stats.s3864+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3865		11.849809		Incorrect		$subjdata/s3865/s3865.results.doors.1mm/stats.s3865+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3865		11.849809		Correct			$subjdata/s3865/s3865.results.doors.1mm/stats.s3865+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3871		8.547309888		Incorrect		$subjdata/s3871/s3871.results.doors.1mm/stats.s3871+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3871		8.547309888		Correct			$subjdata/s3871/s3871.results.doors.1mm/stats.s3871+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3877		8.887442011		Incorrect		$subjdata/s3877/s3877.results.doors.1mm/stats.s3877+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3877		8.887442011		Correct			$subjdata/s3877/s3877.results.doors.1mm/stats.s3877+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3880		8.222968737		Incorrect		$subjdata/s3880/s3880.results.doors.1mm/stats.s3880+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3880		8.222968737		Correct			$subjdata/s3880/s3880.results.doors.1mm/stats.s3880+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3882		9.397520628		Incorrect		$subjdata/s3882/s3882.results.doors.1mm/stats.s3882+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3882		9.397520628		Correct			$subjdata/s3882/s3882.results.doors.1mm/stats.s3882+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3883		8.267269287		Incorrect		$subjdata/s3883/s3883.results.doors.1mm/stats.s3883+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3883		8.267269287		Correct			$subjdata/s3883/s3883.results.doors.1mm/stats.s3883+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3886		7.722397643		Incorrect		$subjdata/s3886/s3886.results.doors.1mm/stats.s3886+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3886		7.722397643		Correct			$subjdata/s3886/s3886.results.doors.1mm/stats.s3886+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3887		12.39948104		Incorrect		$subjdata/s3887/s3887.results.doors.1mm/stats.s3887+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3887		12.39948104		Correct			$subjdata/s3887/s3887.results.doors.1mm/stats.s3887+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3889		8.407680971		Incorrect		$subjdata/s3889/s3889.results.doors.1mm/stats.s3889+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3889		8.407680971		Correct			$subjdata/s3889/s3889.results.doors.1mm/stats.s3889+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3890		8.538233206		Incorrect		$subjdata/s3890/s3890.results.doors.1mm/stats.s3890+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3890		8.538233206		Correct			$subjdata/s3890/s3890.results.doors.1mm/stats.s3890+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3891		9.547210065		Incorrect		$subjdata/s3891/s3891.results.doors.1mm/stats.s3891+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3891		9.547210065		Correct			$subjdata/s3891/s3891.results.doors.1mm/stats.s3891+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3892		5.649759837		Incorrect		$subjdata/s3892/s3892.results.doors.1mm/stats.s3892+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3892		5.649759837		Correct			$subjdata/s3892/s3892.results.doors.1mm/stats.s3892+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3893		9.22208327		Incorrect		$subjdata/s3893/s3893.results.doors.1mm/stats.s3893+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3893		9.22208327		Correct			$subjdata/s3893/s3893.results.doors.1mm/stats.s3893+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3895		9.075425877		Incorrect		$subjdata/s3895/s3895.results.doors.1mm/stats.s3895+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3895		9.075425877		Correct			$subjdata/s3895/s3895.results.doors.1mm/stats.s3895+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3896		12.45556151		Incorrect		$subjdata/s3896/s3896.results.doors.1mm/stats.s3896+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3896		12.45556151		Correct			$subjdata/s3896/s3896.results.doors.1mm/stats.s3896+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3910		9.59070819		Incorrect		$subjdata/s3910/s3910.results.doors.1mm/stats.s3910+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3910		9.59070819		Correct			$subjdata/s3910/s3910.results.doors.1mm/stats.s3910+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3912		8.071761545		Incorrect		$subjdata/s3912/s3912.results.doors.1mm/stats.s3912+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3912		8.071761545		Correct			$subjdata/s3912/s3912.results.doors.1mm/stats.s3912+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3914		7.342681936		Incorrect		$subjdata/s3914/s3914.results.doors.1mm/stats.s3914+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3914		7.342681936		Correct			$subjdata/s3914/s3914.results.doors.1mm/stats.s3914+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3920		6.414532676		Incorrect		$subjdata/s3920/s3920.results.doors.1mm/stats.s3920+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3920		6.414532676		Correct			$subjdata/s3920/s3920.results.doors.1mm/stats.s3920+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3967		7.593527116		Incorrect		$subjdata/s3967/s3967.results.doors.1mm/stats.s3967+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3967		7.593527116		Correct			$subjdata/s3967/s3967.results.doors.1mm/stats.s3967+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s3992		6.086239947		Incorrect		$subjdata/s3992/s3992.results.doors.1mm/stats.s3992+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s3992		6.086239947		Correct			$subjdata/s3992/s3992.results.doors.1mm/stats.s3992+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s4017		7.081494341		Incorrect		$subjdata/s4017/s4017.results.doors.1mm/stats.s4017+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s4017		7.081494341		Correct			$subjdata/s4017/s4017.results.doors.1mm/stats.s4017+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s4018		10.58606783		Incorrect		$subjdata/s4018/s4018.results.doors.1mm/stats.s4018+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s4018		10.58606783		Correct			$subjdata/s4018/s4018.results.doors.1mm/stats.s4018+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s4019		11.05144366		Incorrect		$subjdata/s4019/s4019.results.doors.1mm/stats.s4019+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s4019		11.05144366		Correct			$subjdata/s4019/s4019.results.doors.1mm/stats.s4019+tlrc'[FB.WinGames.Win#0_Coef]'		\
+s4020		6.456789682		Incorrect		$subjdata/s4020/s4020.results.doors.1mm/stats.s4020+tlrc'[FB.WinGames.Lose#0_Coef]'		\
+s4020		6.456789682		Correct			$subjdata/s4020/s4020.results.doors.1mm/stats.s4020+tlrc'[FB.WinGames.Win#0_Coef]'		\
+	   
+gzip $results+tlrc.BRIK
