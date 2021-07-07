@@ -50,7 +50,7 @@ plot(df2$NM, df2$MVSL_avg,
      xlab = "NMvstri Signal",
      ylab = "Avg. Left Ventral Striatal Activation (Avg.)",
      ylim = c(-.4,.3),
-     col = "blue")
+     col = "green")
 abline(lm(df2$MVSL_avg ~ df2$NM))
 
 # linear correlations for correct & incorrect (separate lines):
@@ -66,7 +66,7 @@ plot(df2$NM, df2$MVSL_Incorrect, pch=19,
      xlab = "NMvstri Signal",
      ylab = "Avg. Left Ventral Striatal Activation",
      ylim = c(-.4,.3),
-     col = "green")
+     col = "blue")
 abline(lm(df2$MVSL_Incorrect ~ df2$NM),col = "blue")
 points(df2$NM, df2$MVSL_Correct, pch=19, col = "green")
 abline(lm(df2$MVSL_Correct ~ df2$NM), col = "green")
