@@ -41,6 +41,9 @@ summary(interaction.MVSL)
 MVSL_cor <- cor.test(df2$NM, df2$MVSL_avg, method = "pearson")
 MVSL_cor
 
+MVSL_cor <- cor.test(df2$NM, df2$MVSL_Contrast, method = "pearson")
+MVSL_cor
+
 # scatterplot
 plot(df2$NM, df2$MVSL_avg,
      main = "MVSL: NMvstri & Left Ventral Striatal Activation",
@@ -83,6 +86,9 @@ summary(interaction.MVSR)
 MVSR_cor <- cor.test(df2$NM, df2$MVSR_avg, method = "pearson")
 MVSR_cor
 
+MVSR_cor <- cor.test(df2$NM, df2$MVSR_Contrast, method = "pearson")
+MVSR_cor
+
 plot(df2$NM, df2$MVSR_avg,
      main = "MVSR: NMvstri & Right Ventral Striatal Activation",
      xlab = "NMvstri Signal",
@@ -120,6 +126,9 @@ summary(interaction.SVSL)
 #plot(two.way.SVSL)
 
 SVSL_cor <- cor.test(df2$NM, df2$SVSL_avg, method = "pearson")
+SVSL_cor
+
+SVSL_cor <- cor.test(df2$NM, df2$SVSL_Contrast, method = "pearson")
 SVSL_cor
 
 plot(df2$NM, df2$SVSL_avg,
@@ -161,6 +170,9 @@ summary(interaction.SVSR)
 SVSR_cor <- cor.test(df2$NM, df2$SVSR_avg, method = "pearson")
 SVSR_cor
 
+SVSR_cor <- cor.test(df2$NM, df2$SVSR_Contrast, method = "pearson")
+SVSR_cor
+
 plot(df2$NM, df2$SVSR_avg,
      main = "SVSR: NMvstri & Right Ventral Striatal Activation",
      xlab = "NMvstri Signal",
@@ -198,6 +210,9 @@ summary(interaction.MDSL)
 #plot(two.way.MDSL)
 
 MDSL_cor <- cor.test(df2$NM, df2$MDSL_avg, method = "pearson")
+MDSL_cor
+
+MDSL_cor <- cor.test(df2$NM, df2$MDSL_Contrast, method = "pearson")
 MDSL_cor
 
 plot(df2$NM, df2$MDSL_avg,
@@ -239,6 +254,9 @@ summary(interaction.MDSR)
 MDSR_cor <- cor.test(df2$NM, df2$MDSR_avg, method = "pearson")
 MDSR_cor
 
+MDSR_cor <- cor.test(df2$NM, df2$MDSR_Contrast, method = "pearson")
+MDSR_cor
+
 plot(df2$NM, df2$MDSR_avg,
      main = "MDSR: NMvstri & Right Ventral Striatal Activation",
      xlab = "NMvstri Signal",
@@ -278,6 +296,9 @@ summary(interaction.SDSL)
 SDSL_cor <- cor.test(df2$NM, df2$SDSL_avg, method = "pearson")
 SDSL_cor
 
+SDSL_cor <- cor.test(df2$NM, df2$SDSL_Contrast, method = "pearson")
+SDSL_cor
+
 plot(df2$NM, df2$SDSL_avg,
      main = "SDSL: NMvstri & Left Ventral Striatal Activation",
      xlab = "NMvstri Signal",
@@ -313,6 +334,12 @@ interaction.SDSR <- aov(SVSR ~ NM * Acc, data = df)
 summary(two.way.SDSR)
 summary(interaction.SDSR)
 #plot(two.way.SDSR)
+
+SDSR_cor <- cor.test(df2$NM, df2$SDSR_avg, method = "pearson")
+SDSR_cor
+
+SDSR_cor <- cor.test(df2$NM, df2$SDSR_Contrast, method = "pearson")
+SDSR_cor
 
 plot(df2$NM, df2$SDSR_avg,
      main = "SDSR: NMvstri & Right Ventral Striatal Activation",
@@ -361,6 +388,9 @@ summary(interaction.MVSL)
 MVSL_cor <- cor.test(df5$NM_full, df5$MVSL_avg, method = "pearson")
 MVSL_cor
 
+MVSL_cor <- cor.test(df5$NM_full, df5$MVSL_Contrast, method = "pearson")
+MVSL_cor
+
 # scatterplot
 plot(df5$NM_full, df5$MVSL_avg,
      main = "MVSL: Full NM & Left Ventral Striatal Activation",
@@ -399,6 +429,9 @@ summary(interaction.MVSR)
 #plot(two.way.MVSR)
 
 MVSR_cor <- cor.test(df5$NM_full, df5$MVSR_avg, method = "pearson")
+MVSR_cor
+
+MVSR_cor <- cor.test(df5$NM_full, df5$MVSR_Contrast, method = "pearson")
 MVSR_cor
 
 plot(df5$NM_full, df5$MVSR_avg,
@@ -440,6 +473,9 @@ summary(interaction.SVSL)
 SVSL_cor <- cor.test(df5$NM_full, df5$SVSL_avg, method = "pearson")
 SVSL_cor
 
+SVSL_cor <- cor.test(df5$NM_full, df5$SVSL_Contrast, method = "pearson")
+SVSL_cor
+
 plot(df5$NM_full, df5$SVSL_avg,
      main = "SVSL: Full NM & Left Ventral Striatal Activation",
      xlab = "Full NM Signal",
@@ -477,6 +513,9 @@ summary(interaction.SVSR)
 #plot(two.way.SVSR)
 
 SVSR_cor <- cor.test(df5$NM_full, df5$SVSR_avg, method = "pearson")
+SVSR_cor
+
+SVSR_cor <- cor.test(df5$NM_full, df5$SVSR_Contrast, method = "pearson")
 SVSR_cor
 
 plot(df5$NM_full, df5$SVSR_avg,
@@ -518,6 +557,9 @@ summary(interaction.MDSL)
 MDSL_cor <- cor.test(df5$NM_full, df5$MDSL_avg, method = "pearson")
 MDSL_cor
 
+MDSL_cor <- cor.test(df5$NM_full, df5$MDSL_Contrast, method = "pearson")
+MDSL_cor
+
 plot(df5$NM_full, df5$MDSL_avg,
      main = "MDSL: Full NM & Left Ventral Striatal Activation",
      xlab = "Full NM Signal",
@@ -555,6 +597,9 @@ summary(interaction.MDSR)
 #plot(two.way.MDSR)
 
 MDSR_cor <- cor.test(df5$NM_full, df5$MDSR_avg, method = "pearson")
+MDSR_cor
+
+MDSR_cor <- cor.test(df5$NM_full, df5$MDSR_Contrast, method = "pearson")
 MDSR_cor
 
 plot(df5$NM_full, df5$MDSR_avg,
@@ -596,6 +641,9 @@ summary(interaction.SDSL)
 SDSL_cor <- cor.test(df5$NM_full, df5$SDSL_avg, method = "pearson")
 SDSL_cor
 
+SDSL_cor <- cor.test(df5$NM_full, df5$SDSL_Contrast, method = "pearson")
+SDSL_cor
+
 plot(df5$NM_full, df5$SDSL_avg,
      main = "SDSL: Full NM & Left Ventral Striatal Activation",
      xlab = "Full NM Signal",
@@ -631,6 +679,12 @@ interaction.SDSR <- aov(SVSR ~ NM_full * Acc, data = df4)
 summary(two.way.SDSR)
 summary(interaction.SDSR)
 #plot(two.way.SDSR)
+
+SDSR_cor <- cor.test(df5$NM_full, df5$SDSR_avg, method = "pearson")
+SDSR_cor
+
+SDSR_cor <- cor.test(df5$NM_full, df5$SDSR_Contrast, method = "pearson")
+SDSR_cor
 
 plot(df5$NM_full, df5$SDSR_avg,
      main = "SDSR: Full NM & Right Ventral Striatal Activation",
