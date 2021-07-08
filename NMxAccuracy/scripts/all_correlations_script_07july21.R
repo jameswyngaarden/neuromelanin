@@ -14,9 +14,16 @@ library("ggpubr")
 library("plot")
 library("Hmisc")
 
+#install.packages("apaTables")
+library("apaTables")
+
 # import data
 df <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/all_correlations_07july21.xlsx")
 head(df)
+
+setwd("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/")
+
+apa.cor.table(df, filename = "correlations.doc", table.number = NA, show.conf.interval = TRUE, landscape = TRUE)
 
 mcor <- round(cor(df),4)
 
