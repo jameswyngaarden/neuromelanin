@@ -8,7 +8,9 @@ datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/")
 
 # load packages
 library("readxl")
-#library("ggpubr")
+library("ggpubr")
+library("plot")
+library("Hmisc")
 
 # import data
 df <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
@@ -20,6 +22,25 @@ df6 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPosit
 
 head(df)
 summary(df)
+
+# full correlations table
+mcor <- round(cor(df2),4)
+
+mcor
+write.csv(mcor, 'correlationmatrix.csv')
+
+# from displayr website:
+mydata = df2
+mydata.cor <- cor(df2)
+mydata.cor
+
+mydata.rcorr = rcorr(as.matrix(df2))
+mydata.rcorr
+
+mydata.coeff = mydata.rcorr$r
+mydata.p = mydata.rcorr$P
+write.csv(mydata.coeff, 'correlationmatrix_coeff.csv')
+write.csv(mydata.p, 'correlationmatrix_p.csv')
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # ANOVAs: Accuracy(correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
