@@ -20,8 +20,8 @@ df4 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPosit
 df5 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPositiveAccuracy_maineffects.xlsx")
 df6 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPositiveAccuracy_anova3way.xlsx")
 
-head(df)
-summary(df)
+head(df5)
+summary(df5)
 
 # full correlations table
 mcor <- round(cor(df2),4)
@@ -41,6 +41,27 @@ mydata.coeff = mydata.rcorr$r
 mydata.p = mydata.rcorr$P
 write.csv(mydata.coeff, 'correlationmatrix_coeff.csv')
 write.csv(mydata.p, 'correlationmatrix_p.csv')
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Mediation analyses
+# NMfull as mediator for Substance Use & Striatal (MVSL) activation?
+# total effect
+fit.totaleffect = lm(df2$MVSL_Contrast~df2$Total_Use)
+summary(fit.totaleffect)
+
+# effect of the IV onto the mediator
+fit.mediator = lm(df2$NM_vstri~df2$Total_Use)
+summary(fit.mediator)
+
+# effect of the mediator on the dependent variable
+fit.dv = lm(df2$MVSL_Contrast~df2$Total_Use+df2$NM_vstri)
+summary(fit.dv)
+
+# causal mediation analysis
+#install.packages("mediation")
+library("mediation")
+results = mediate(fit.mediator, fit.dv, treat='df2$Total_Use', mediator='df2$NM_vstri', boot=T)
+summary(results)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # ANOVAs: Accuracy(correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
