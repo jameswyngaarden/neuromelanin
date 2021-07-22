@@ -62,6 +62,7 @@ summary(fit.dv)
 library("mediation")
 results = mediate(fit.mediator, fit.dv, treat='df2$Total_Use', mediator='df2$NM_vstri', boot=T)
 summary(results)
+# this last step not working; does it need to include the total effect step? continue troubleshooting this
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # ANOVAs: Accuracy(correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
