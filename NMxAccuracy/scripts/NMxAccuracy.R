@@ -65,7 +65,7 @@ summary(results)
 # this last step not working; does it need to include the total effect step? continue troubleshooting this
 
 # Mediation with PROCESS (model 4)
-process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_vstri", model = 4)
+process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
 process(data = df2, y = "MVSL_Contrast", x = "Total_Use", w = "NM_vstri", model = 1)
