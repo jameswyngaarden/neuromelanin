@@ -68,7 +68,7 @@ summary(results)
 process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
-process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", w = "NM_full", model = 1)
+process(data = df2, y = "MVSL_Contrast", x = "Total_Use", w = "NM_vstri", model = 1)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # ANOVAs: Accuracy(correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
