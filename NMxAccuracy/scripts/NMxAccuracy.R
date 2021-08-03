@@ -42,27 +42,38 @@ mydata.p = mydata.rcorr$P
 write.csv(mydata.coeff, 'correlationmatrix_coeff.csv')
 write.csv(mydata.p, 'correlationmatrix_p.csv')
 
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Scatter plots 3 August 2021
+
+# NM full & total use
+ggscatter(df2, x = "NM_full", y = "Total_Use",
+          main="Full NM and Total Use",
+          xlab = "Full NM Signal", ylab = "Total Use",
+          col = "darkblue",
+          add = "reg.line",
+          conf.int = TRUE,
+          add.params = list(color = "darkgray",
+                            fill = "lightgray")
+)+
+  stat_cor(method = "pearson")
+
+# NM full & substance abuse
+ggscatter(df2, x = "NM_full", y = "Substance_Abuse",
+          main="Full NM and Substance Abuse",
+          xlab = "Full NM Signal", ylab = "Substance Abuse",
+          col = "darkgreen",
+          add = "reg.line",
+          conf.int = TRUE,
+          add.params = list(color = "darkgray",
+                            fill = "lightgray")
+)+
+  stat_cor(method = "pearson")
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Mediation analyses
 # NMfull as mediator for Substance Use & Striatal (MVSL) activation?
-# total effect
-fit.totaleffect = lm(df2$MVSL_Contrast~df2$Total_Use)
-summary(fit.totaleffect)
-
-# effect of the IV onto the mediator
-fit.mediator = lm(df2$NM_vstri~df2$Total_Use)
-summary(fit.mediator)
-
-# effect of the mediator on the dependent variable
-fit.dv = lm(df2$MVSL_Contrast~df2$Total_Use+df2$NM_vstri)
-summary(fit.dv)
-
-# causal mediation analysis
-#install.packages("mediation")
-library("mediation")
-results = mediate(fit.mediator, fit.dv, treat='df2$Total_Use', mediator='df2$NM_vstri', boot=T)
-summary(results)
-# this last step not working; does it need to include the total effect step? continue troubleshooting this
 
 # Mediation with PROCESS (model 4)
 process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
