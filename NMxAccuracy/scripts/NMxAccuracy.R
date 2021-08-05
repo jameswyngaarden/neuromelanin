@@ -5,12 +5,16 @@ maindir <- getwd()
 datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/")
 
 # install.packages("readxl")
+#install.packages("olsrr")
+install.packages("performance")
 
 # load packages
 library("readxl")
 library("ggpubr")
 library("plot")
 library("Hmisc")
+library("olsrr")
+library("performance")
 
 # import data
 df <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
@@ -70,6 +74,17 @@ ggscatter(df2, x = "NM_full", y = "Substance_Abuse",
 )+
   stat_cor(method = "pearson")
 
+# substance abuse & total use
+ggscatter(df2, x = "Total_Use", y = "Substance_Abuse",
+          main="Total Use and Substance Abuse",
+          xlab = "Total Use", ylab = "Substance Abuse",
+          col = "darkred",
+          add = "reg.line",
+          conf.int = TRUE,
+          add.params = list(color = "darkgray",
+                            fill = "lightgray")
+)+
+  stat_cor(method = "pearson")
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Mediation analyses
@@ -79,7 +94,24 @@ ggscatter(df2, x = "NM_full", y = "Substance_Abuse",
 process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
-process(data = df2, y = "MVSL_Contrast", x = "Total_Use", w = "NM_vstri", model = 1)
+MVSL_totaluse_nmvstri <- process(data = df2, y = "MVSL_Contrast", x = "Total_Use", w = "NM_vstri", model = 1)
+
+# Moderation using lm
+model = lm(SVSR_Contrast ~ Total_Use * NM_vstri, 
+           data=na.omit(df2))
+summary(model)
+
+# OLS normality test
+ols_test_normality(model)
+
+# shapiro test
+shapiro.test(model$residuals)
+
+# ks test
+ks.test(model$residuals, "pnorm")
+
+check_normality(model)
+check_zeroinflation(model)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # ANOVAs: Accuracy(correct vs. Incorrect) x Neuromelanin Signal -> % Signal Change BOLD Activation?
