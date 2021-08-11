@@ -6,7 +6,9 @@ datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/")
 
 # install.packages("readxl")
 #install.packages("olsrr")
-install.packages("performance")
+#install.packages("performance")
+#install.packages("ggplot2")
+#install.packages("sjPlot")
 
 # load packages
 library("readxl")
@@ -15,6 +17,8 @@ library("plot")
 library("Hmisc")
 library("olsrr")
 library("performance")
+library("ggplot2")
+library("sjPlot")
 
 # import data
 df <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
@@ -24,8 +28,8 @@ df4 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPosit
 df5 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPositiveAccuracy_maineffects.xlsx")
 df6 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPositiveAccuracy_anova3way.xlsx")
 
-head(df5)
-summary(df5)
+head(df2)
+summary(df2)
 
 # full correlations table
 mcor <- round(cor(df2),4)
@@ -91,15 +95,24 @@ ggscatter(df2, x = "Total_Use", y = "Substance_Abuse",
 # NMfull as mediator for Substance Use & Striatal (MVSL) activation?
 
 # Mediation with PROCESS (model 4)
-process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
+#process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
-MVSL_totaluse_nmvstri <- process(data = df2, y = "MVSL_Contrast", x = "Total_Use", w = "NM_vstri", model = 1)
+process(data = df2, y = "SDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
 
 # Moderation using lm
-model = lm(SVSR_Contrast ~ Total_Use * NM_vstri, 
+model = lm(SDSR_Contrast ~ Total_Use * NM_full, 
            data=na.omit(df2))
 summary(model)
+
+# Plotting simple slopes 10 Aug 2021
+interaction <- plot_model(model, type = "int",
+                          mdrt.values = "meansd",
+                          show.data = TRUE)
+print(interaction)
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Normality checks:
 
 # OLS normality test
 ols_test_normality(model)
