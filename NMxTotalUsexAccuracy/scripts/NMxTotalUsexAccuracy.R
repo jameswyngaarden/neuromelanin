@@ -4,7 +4,7 @@
 # set working directory
 setwd("~/Documents/GitHub/neuromelanin/NMxAccuracy")
 maindir <- getwd()
-datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/")
+datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/")
 
 # install.packages("readxl")
 #install.packages("olsrr")
