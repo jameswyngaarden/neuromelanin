@@ -1,3 +1,5 @@
+# Script for analyzing social doors NM data
+# Jimmy Wyngaarden, July 2021
 
 # set working directory
 setwd("~/Documents/GitHub/neuromelanin/NMxAccuracy")
@@ -21,12 +23,9 @@ library("ggplot2")
 library("sjPlot")
 
 # import data
-df <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
+df4 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
-df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova3way.xlsx")
-df4 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPositiveAccuracy_anova.xlsx")
-df5 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPositiveAccuracy_maineffects.xlsx")
-df6 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMfullxPositiveAccuracy_anova3way.xlsx")
+#df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova3way.xlsx")
 
 head(df2)
 summary(df2)
@@ -52,7 +51,7 @@ write.csv(mydata.p, 'correlationmatrix_p.csv')
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Scatter plots 3 August 2021
+# Scatter plots - 3 August 2021
 
 # NM full & total use
 ggscatter(df2, x = "NM_full", y = "Total_Use",
@@ -91,8 +90,22 @@ ggscatter(df2, x = "Total_Use", y = "Substance_Abuse",
   stat_cor(method = "pearson")
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Breaking down 3dMVM: NM_full, Total_Use, & Acc -> Striatal Response
+# (Social domain, positive valence)
+
+# 2-way anova model and model with interaction:
+two.way.SVSR <- aov(SVSR ~ NM_full + Acc + Total_Use, data = df4)
+interaction.SVSR <- aov(MVSL ~ NM_full * Acc * Total_Use, data = df4)
+
+# print statistics for 2-way anova & interaction
+summary(two.way.SVSR)
+summary(interaction.SVSR)
+plot(two.way.SVSR)
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Mediation analyses
-# NMfull as mediator for Substance Use & Striatal (MVSL) activation?
+# NM_full as mediator for Total Use & Striatal (MVSL) activation?
 
 # Mediation with PROCESS (model 4)
 #process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
