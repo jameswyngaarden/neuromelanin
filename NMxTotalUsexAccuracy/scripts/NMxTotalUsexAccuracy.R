@@ -23,25 +23,28 @@ library("ggplot2")
 library("sjPlot")
 
 # import data
-df4 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
-df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
-#df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxAccuracy/data/NMxPositiveAccuracy_anova3way.xlsx")
+df1 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
+df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
+df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_anova3way.xlsx")
 
 head(df2)
 summary(df2)
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Correlations
+
 # full correlations table
-mcor <- round(cor(df2),4)
+mcor <- round(cor(df1),4)
 
 mcor
 write.csv(mcor, 'correlationmatrix.csv')
 
 # from displayr website:
-mydata = df2
-mydata.cor <- cor(df2)
+mydata = df1
+mydata.cor <- cor(df1)
 mydata.cor
 
-mydata.rcorr = rcorr(as.matrix(df2))
+mydata.rcorr = rcorr(as.matrix(df1))
 mydata.rcorr
 
 mydata.coeff = mydata.rcorr$r
@@ -54,7 +57,7 @@ write.csv(mydata.p, 'correlationmatrix_p.csv')
 # Scatter plots - 3 August 2021
 
 # NM full & total use
-ggscatter(df2, x = "NM_full", y = "Total_Use",
+ggscatter(df1, x = "NM_full", y = "Total_Use",
           main="Full NM and Total Use",
           xlab = "Full NM Signal", ylab = "Total Use",
           col = "darkblue",
@@ -66,7 +69,7 @@ ggscatter(df2, x = "NM_full", y = "Total_Use",
   stat_cor(method = "pearson")
 
 # NM full & substance abuse
-ggscatter(df2, x = "NM_full", y = "Substance_Abuse",
+ggscatter(df1, x = "NM_full", y = "Substance_Abuse",
           main="Full NM and Substance Abuse",
           xlab = "Full NM Signal", ylab = "Substance Abuse",
           col = "darkgreen",
@@ -78,7 +81,7 @@ ggscatter(df2, x = "NM_full", y = "Substance_Abuse",
   stat_cor(method = "pearson")
 
 # substance abuse & total use
-ggscatter(df2, x = "Total_Use", y = "Substance_Abuse",
+ggscatter(df1, x = "Total_Use", y = "Substance_Abuse",
           main="Total Use and Substance Abuse",
           xlab = "Total Use", ylab = "Substance Abuse",
           col = "darkred",
@@ -93,14 +96,56 @@ ggscatter(df2, x = "Total_Use", y = "Substance_Abuse",
 # Breaking down 3dMVM: NM_full, Total_Use, & Acc -> Striatal Response
 # (Social domain, positive valence)
 
-# 2-way anova model and model with interaction:
-two.way.SVSR <- aov(SVSR ~ NM_full + Acc + Total_Use, data = df4)
-interaction.SVSR <- aov(MVSL ~ NM_full * Acc * Total_Use, data = df4)
+############ Right Ventral Striatum #############
+# 3-way anova model and model with interaction:
+three.way.SVSR <- aov(SVSR ~ NM_full + Acc + Total_Use, data = df1)
+interaction.SVSR <- aov(SVSR ~ NM_full * Acc * Total_Use, data = df1)
 
-# print statistics for 2-way anova & interaction
-summary(two.way.SVSR)
+# print statistics for 3-way anova & interaction
+summary(three.way.SVSR)
 summary(interaction.SVSR)
-plot(two.way.SVSR)
+plot(three.way.SVSR)
+
+# Breaking down by accuracy
+lmSVSRincorrect <- lm(SVSR_Correct ~ NM_full + Total_Use, data = df2)
+summary(lmSVSRincorrect)
+
+lmSVSRcorrect <- lm(SVSR_Correct ~ NM_full + Total_Use, data = df2)
+summary(lmSVSRcorrect)
+
+# SVSR_Correct & total use
+ggscatter(df2, x = "Total_Use", y = "SVSR_Correct",
+          main="SVSR_Correct & Total Use",
+          xlab = "Total Use", ylab = "SVSR_Correct",
+          col = "blue",
+          add = "reg.line",
+          conf.int = TRUE,
+          add.params = list(color = "darkgray",
+                            fill = "lightgray")
+)+
+  stat_cor(method = "pearson")
+
+# SVSR_Correct & NM full
+ggscatter(df2, x = "NM_full", y = "SVSR_Correct",
+          main="SVSR_Correct & NM Full",
+          xlab = "NM Full", ylab = "SVSR_Correct",
+          col = "blue",
+          add = "reg.line",
+          conf.int = TRUE,
+          add.params = list(color = "darkgray",
+                            fill = "lightgray")
+)+
+  stat_cor(method = "pearson")
+                      
+########### Right Dorsal Striatum ###############
+# 3-way anova model and model with interaction:
+three.way.SDSR <- aov(SDSR ~ NM_full + Acc + Total_Use, data = df1)
+interaction.SDSR <- aov(SDSR ~ NM_full * Acc * Total_Use, data = df1)
+
+# print statistics for 3-way anova & interaction
+summary(three.way.SDSR)
+summary(interaction.SDSR)
+plot(three.way.SDSR)
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -147,8 +192,8 @@ check_zeroinflation(model)
 # Monetary: Left Ventral Striatum
 
 # 2-way anova model and model with interaction:
-two.way.MVSL <- aov(MVSL ~ NM + Acc, data = df)
-interaction.MVSL <- aov(MVSL ~ NM * Acc, data = df)
+two.way.MVSL <- aov(MVSL ~ NM + Acc, data = df1)
+interaction.MVSL <- aov(MVSL ~ NM * Acc, data = df1)
 
 # print statistics for 2-way anova & interaction
 summary(two.way.MVSL)
