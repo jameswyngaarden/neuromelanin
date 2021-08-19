@@ -92,6 +92,24 @@ ggscatter(df1, x = "Total_Use", y = "Substance_Abuse",
 )+
   stat_cor(method = "pearson")
 
+# Striatal contrast & NM
+
+y <- df2$MDSL_Contrast
+x <- df2$NM_full
+
+cor <- cor.test(x, y, method = "pearson")
+cor
+
+# scatterplot
+plot(x, y,
+     main = "MDSL: NM Full & Left Dorsal Striatal Activation",
+     xlab = "NM Full Signal",
+     ylab = "Left Dorsal Striatal Activation (Correct > Incorrect)",
+     ylim = c(-.4,.3),
+     col = "blue")
+abline(lm(y ~ x))
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Breaking down 3dMVM: NM_full, Total_Use, & Acc -> Striatal Response
 # (Social domain, positive valence)
@@ -113,10 +131,10 @@ summary(lmSVSRincorrect)
 lmSVSRcorrect <- lm(SVSR_Correct ~ NM_full + Total_Use, data = df2)
 summary(lmSVSRcorrect)
 
-# SVSR_Correct & total use
-ggscatter(df2, x = "Total_Use", y = "SVSR_Correct",
-          main="SVSR_Correct & Total Use",
-          xlab = "Total Use", ylab = "SVSR_Correct",
+# SVSR_Contrast & total use
+ggscatter(df2, x = "Total_Use", y = "SVSR_Contrast",
+          main="SVSR_Contrast & Total Use",
+          xlab = "Total Use", ylab = "SVSR_Contrast",
           col = "blue",
           add = "reg.line",
           conf.int = TRUE,
@@ -125,11 +143,23 @@ ggscatter(df2, x = "Total_Use", y = "SVSR_Correct",
 )+
   stat_cor(method = "pearson")
 
-# SVSR_Correct & NM full
-ggscatter(df2, x = "NM_full", y = "SVSR_Correct",
-          main="SVSR_Correct & NM Full",
-          xlab = "NM Full", ylab = "SVSR_Correct",
+# SDSR_Correct & Total_Use
+ggscatter(df2, x = "Total_Use", y = "SDSR_Correct",
+          main="SDSR_Correct & Total Use",
+          xlab = "Total Use", ylab = "SDSR_Correct",
           col = "blue",
+          add = "reg.line",
+          conf.int = TRUE,
+          add.params = list(color = "darkgray",
+                            fill = "lightgray")
+)+
+  stat_cor(method = "pearson")
+
+# SDSR_Incorrect & NM full
+ggscatter(df2, x = "NM_full", y = "SDSR_Incorrect",
+          main="SDSR_Incorrect & NM full",
+          xlab = "NM full", ylab = "SDSR_Incorrect",
+          col = "red",
           add = "reg.line",
           conf.int = TRUE,
           add.params = list(color = "darkgray",
@@ -204,17 +234,17 @@ summary(interaction.MVSL)
 MVSL_cor <- cor.test(df2$NM, df2$MVSL_avg, method = "pearson")
 MVSL_cor
 
-MVSL_cor <- cor.test(df2$NM, df2$MVSL_Contrast, method = "pearson")
+MVSL_cor <- cor.test(df2$NM_full, df2$MVSL_Contrast, method = "pearson")
 MVSL_cor
 
 # scatterplot
-plot(df2$NM, df2$MVSL_avg,
+plot(df2$NM_full, df2$MVSL_Contrast,
      main = "MVSL: NMvstri & Left Ventral Striatal Activation",
-     xlab = "NMvstri Signal",
-     ylab = "Avg. Left Ventral Striatal Activation (Avg.)",
+     xlab = "NM Full Signal",
+     ylab = "Left Ventral Striatal Activation (Correct > Incorrect)",
      ylim = c(-.4,.3),
-     col = "green")
-abline(lm(df2$MVSL_avg ~ df2$NM))
+     col = "blue")
+abline(lm(df2$MVSL_avg ~ df2$NM_full))
 
 # linear correlations for correct & incorrect (separate lines):
 MVSL_cor <- cor.test(df2$NM, df2$MVSL_Incorrect, method = "pearson")
