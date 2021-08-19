@@ -11,6 +11,7 @@ datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/
 #install.packages("performance")
 #install.packages("ggplot2")
 #install.packages("sjPlot")
+#install.packages("reshape2")
 
 # load packages
 library("readxl")
@@ -21,11 +22,13 @@ library("olsrr")
 library("performance")
 library("ggplot2")
 library("sjPlot")
+library("reshape2")
 
 # import data
 df1 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
 df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_anova3way.xlsx")
+df4 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects2.xlsx")
 
 head(df2)
 summary(df2)
@@ -35,9 +38,45 @@ summary(df2)
 
 # full correlations table
 mcor <- round(cor(df1),4)
-
 mcor
 write.csv(mcor, 'correlationmatrix.csv')
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+# heatmap of all correlations
+cormat <- round(cor(df4),2)
+head(cormat)
+
+# Get lower triangle of the correlation matrix
+get_lower_tri<-function(cormat){
+  cormat[upper.tri(cormat)] <- NA
+  return(cormat)
+}
+# Get upper triangle of the correlation matrix
+get_upper_tri <- function(cormat){
+  cormat[lower.tri(cormat)]<- NA
+  return(cormat)
+}
+
+upper_tri <- get_upper_tri(cormat)
+upper_tri
+
+melted_cormat <- melt(upper_tri, na.rm = TRUE)
+head(melted_cormat)
+
+ggplot(data = melted_cormat, aes(Var2, Var1, fill = value))+
+  geom_tile(color = "black")+
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1,1), space = "Lab", 
+                       name="Pearson\nCorrelation") +
+  theme_minimal()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                   size = 12, hjust = 1))+
+  coord_fixed()
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+ # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 # from displayr website:
 mydata = df1
@@ -189,7 +228,7 @@ plot(three.way.SDSR)
 process(data = df2, y = "SDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
 
 # Moderation using lm
-model = lm(SDSR_Contrast ~ Total_Use * NM_full, 
+model = lm(MDSR_Contrast ~ Total_Use * NM_full, 
            data=na.omit(df2))
 summary(model)
 
