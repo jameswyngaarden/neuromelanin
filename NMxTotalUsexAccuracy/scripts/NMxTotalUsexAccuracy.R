@@ -225,7 +225,7 @@ plot(three.way.SDSR)
 #process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
-process(data = df2, y = "SDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
+process(data = df2, y = "MDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
 
 # Moderation using lm
 model = lm(MDSR_Contrast ~ Total_Use * NM_full, 
@@ -273,36 +273,117 @@ summary(interaction.MVSL)
 MVSL_cor <- cor.test(df2$NM, df2$MVSL_avg, method = "pearson")
 MVSL_cor
 
+## MONETARY ##
+
+# scatterplot
+x <- df2$MVSL_Contrast
+x1 <- df2$MVSL_Incorrect
+x2 <- df2$MVSL_Correct
+
 MVSL_cor <- cor.test(df2$NM_full, df2$MVSL_Contrast, method = "pearson")
 MVSL_cor
 
-# scatterplot
-plot(df2$NM_full, df2$MVSL_Contrast,
-     main = "MVSL: NMvstri & Left Ventral Striatal Activation",
+plot(df2$NM_full, x, pch=19,
+     main = "MVSL: NM Full & Striatal Activation",
      xlab = "NM Full Signal",
-     ylab = "Left Ventral Striatal Activation (Correct > Incorrect)",
+     ylab = "Striatal Activation (Correct > Incorrect)",
      ylim = c(-.4,.3),
-     col = "blue")
-abline(lm(df2$MVSL_avg ~ df2$NM_full))
+     col = "green")
+abline(lm(df2$MVSL_Contrast ~ df2$NM_full))
 
-# linear correlations for correct & incorrect (separate lines):
-MVSL_cor <- cor.test(df2$NM, df2$MVSL_Incorrect, method = "pearson")
+# linear correlations for correct & incorrect (separate lines)
+
+MVSL_cor <- cor.test(df2$NM_full, x1, method = "pearson")
 MVSL_cor
 
-MVSL_cor <- cor.test(df2$NM, df2$MVSL_Correct, method = "pearson")
+MVSL_cor <- cor.test(df2$NM_full, x2, method = "pearson")
 MVSL_cor
 
 # scatterplot
-plot(df2$NM, df2$MVSL_Incorrect, pch=19,
-     main = "MVSL: NMvstri & Left Ventral Striatal Activation",
-     xlab = "NMvstri Signal",
-     ylab = "Avg. Left Ventral Striatal Activation",
+plot(df2$NM_full, x1, pch=19,
+     main = "MVSL: NM Full & Striatal Activation",
+     xlab = "NM Full Signal",
+     ylab = "Avg. Activation",
+     ylim = c(-.4,.3),
+     col = "darkgreen")
+abline(lm(x1 ~ df2$NM_full),col = "darkgreen")
+points(df2$NM_full, x2, pch=19, col = "green")
+abline(lm(x2 ~ df2$NM_full), col = "green")
+legend("bottomright", legend=c("Correct", "Incorrect"), col=c("green", "darkgreen"), lty=1:1, cex=0.8)
+
+
+# scatterplot
+x <- df2$MVSL_Contrast
+x1 <- df2$MVSL_Incorrect
+x2 <- df2$MVSL_Correct
+
+MVSL_cor <- cor.test(df2$NM_full, df2$MVSL_Contrast, method = "pearson")
+MVSL_cor
+
+plot(df2$NM_full, x, pch=19,
+     main = "MVSL: NM Full & Striatal Activation",
+     xlab = "NM Full Signal",
+     ylab = "Striatal Activation (Correct > Incorrect)",
+     ylim = c(-.4,.3),
+     col = "green")
+abline(lm(df2$MVSL_Contrast ~ df2$NM_full))
+
+
+## SOCIAL ##
+
+# scatterplot
+x <- df2$SVSL_Contrast
+x1 <- df2$SVSL_Incorrect
+x2 <- df2$SVSL_Correct
+
+cor <- cor.test(df2$NM_full, x, method = "pearson")
+cor
+
+plot(df2$NM_full, x, pch=19,
+     main = "Social: NM Full & Striatal Activation",
+     xlab = "NM Full Signal",
+     ylab = "Striatal Activation (Correct > Incorrect)",
      ylim = c(-.4,.3),
      col = "blue")
-abline(lm(df2$MVSL_Incorrect ~ df2$NM),col = "blue")
-points(df2$NM, df2$MVSL_Correct, pch=19, col = "green")
-abline(lm(df2$MVSL_Correct ~ df2$NM), col = "green")
-legend("bottomright", legend=c("Incorrect", "Correct"), col=c("blue", "green"), lty=1:1, cex=0.8)
+abline(lm(x ~ df2$NM_full))
+
+# linear correlations for correct & incorrect (separate lines)
+
+cor1 <- cor.test(df2$NM_full, x1, method = "pearson")
+cor1
+
+cor2 <- cor.test(df2$NM_full, x2, method = "pearson")
+cor2
+
+# scatterplot
+plot(df2$NM_full, x1, pch=19,
+     main = "Social: NM Full & Striatal Activation",
+     xlab = "NM Full Signal",
+     ylab = "Avg. Activation",
+     ylim = c(-.4,.3),
+     col = "darkblue")
+abline(lm(x1 ~ df2$NM_full),col = "darkblue")
+points(df2$NM_full, x2, pch=19, col = "blue")
+abline(lm(x2 ~ df2$NM_full), col = "blue")
+legend("bottomright", legend=c("Correct", "Incorrect"), col=c("blue", "darkblue"), lty=1:1, cex=0.8)
+
+
+# scatterplot
+x <- df2$MVSL_Contrast
+x1 <- df2$MVSL_Incorrect
+x2 <- df2$MVSL_Correct
+
+MVSL_cor <- cor.test(df2$NM_full, df2$MVSL_Contrast, method = "pearson")
+MVSL_cor
+
+plot(df2$NM_full, x, pch=19,
+     main = "MVSL: NM Full & Striatal Activation",
+     xlab = "NM Full Signal",
+     ylab = "Striatal Activation (Correct > Incorrect)",
+     ylim = c(-.4,.3),
+     col = "green")
+abline(lm(df2$MVSL_Contrast ~ df2$NM_full))
+
 
 # these steps repeated for right VS without comment below; no main effects for NM in dorsal striatum:
 
