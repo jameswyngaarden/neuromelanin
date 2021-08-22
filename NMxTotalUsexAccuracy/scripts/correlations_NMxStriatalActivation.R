@@ -53,7 +53,7 @@ cor1
 cor2 <- cor.test(df2$NM_full, monetary_correct, method = "pearson")
 cor2
 
-# scatterplot for correct & incorrect
+# scatter plot for correct & incorrect
 plot(df2$NM_full, monetary_incorrect, pch=19,
      main = "Monetary: NM Full & Striatal Activation",
      xlab = "NM Full Signal",
@@ -82,7 +82,7 @@ social_correct <- df2$SVSR_Correct
 cor <- cor.test(df2$NM_full, social_contrast, method = "pearson")
 cor
 
-# plot forcontrast
+# plot for contrast
 plot(df2$NM_full, social_contrast, pch=19,
      main = "Social: NM Full & Striatal Activation",
      xlab = "NM Full Signal",
@@ -100,7 +100,7 @@ cor1
 cor2 <- cor.test(df2$NM_full, social_correct, method = "pearson")
 cor2
 
-# scatterplot for correct & incorrect
+# scatter plot for correct & incorrect
 plot(df2$NM_full, x1, pch=19,
      main = "Social: NM Full & Striatal Activation",
      xlab = "NM Full Signal",
