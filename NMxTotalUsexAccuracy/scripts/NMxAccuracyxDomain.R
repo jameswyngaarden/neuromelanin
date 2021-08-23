@@ -53,11 +53,14 @@ emmeans(frg, "Domain")
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # plot of estimated marginal means for Accuracy (avg across domain) & average striatal activation
-emcorr <- 0.0283
-emincorr <- -0.0606
-emmon <- -0.032771
-emsoc <- 0.000447
-se <- 0.0145
+y2 <- df2$DSR
+emcorr <- 0.0462
+emincorr <- -0.0159
+emmon <- 0.0120
+emsoc <- 0.0183
+se <- 0.0111
+
+t.test(emcorr, emincorr)
 
 Acc.levels <- c("Incorrect", "Correct")
 Acc.emmeans <- c(emincorr, emcorr) #input accuracy emmeans
@@ -85,8 +88,6 @@ Dom_plot
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # scatter plot for NM and average striatal activation
-y2 <- df2$VSL
-
 plot(df2$NM_full, y2, pch=19,
      main = "Neuromelanin and Striatal reward activation",
      xlab = "Neuromelanin Signal",
@@ -94,6 +95,7 @@ plot(df2$NM_full, y2, pch=19,
      col = "pink")
 abline(lm(y2 ~ df2$NM_full))
 
+y2 <- df2$VSL
 cor <- cor.test(df2$NM_full, y2, method = "pearson")
 cor
 
