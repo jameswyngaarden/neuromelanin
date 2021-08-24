@@ -24,6 +24,9 @@ df1 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMx
 # use this for 2-way analyses (e.g., scatter plots, bar graphs)
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
 
+# use this for 2-way analyses (e.g., scatter plots, bar graphs)
+df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_anova.xlsx")
+
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -38,10 +41,10 @@ df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMx
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 # anova models
-y1 <- df1$VSL
+y1 <- df3$MDSL
 
-three.way <- aov(y1 ~ df1$NM_full + df1$Acc + df1$Domain)
-interaction <- aov(y1 ~ df1$NM_full * df1$Acc * df1$Domain)
+three.way <- aov(y1 ~ df3$NM_full + df3$Acc)
+interaction <- aov(y1 ~ df3$NM_full * df3$Acc)
 summary(three.way)
 summary(interaction)
 

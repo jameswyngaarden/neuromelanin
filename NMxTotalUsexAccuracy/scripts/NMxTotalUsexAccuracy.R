@@ -228,7 +228,7 @@ plot(three.way.SDSR)
 process(data = df2, y = "MDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
 
 # Moderation using lm
-model = lm(MDSR_Contrast ~ Total_Use * NM_full, 
+model = lm(SVSR_Contrast ~ Total_Use * NM_full, 
            data=na.omit(df2))
 summary(model)
 
