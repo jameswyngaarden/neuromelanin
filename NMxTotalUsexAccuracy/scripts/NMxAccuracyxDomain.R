@@ -41,12 +41,14 @@ df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMx
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 # anova models
-y1 <- df3$MDSL
+y1 <- df3$MVSL
 
-three.way <- aov(y1 ~ df3$NM_full + df3$Acc)
-interaction <- aov(y1 ~ df3$NM_full * df3$Acc)
+three.way <- aov(y1 ~ df3$Acc + df3$NM_full)
+interaction <- aov(y1 ~ df3$Acc * df3$NM_full)
 summary(three.way)
 summary(interaction)
+
+
 
 # estimated marginal means (EMMs)
 (frg <- ref_grid(interaction))
