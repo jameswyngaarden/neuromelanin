@@ -17,15 +17,17 @@ library("ggpubr")
 library("ggplot2")
 library("reshape2")
 library("ppcor")
-
+library("dplyr")
 
 # import data
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
 head(df2)
-model14 <- df2 %>% select(NM_full, Total_Use, SVSR_Contrast, SVSR_Incorrect, SVSR_Correct)
+model14 <- subset(df2, select = c("NM_full", "Total_Use", "SVSR_Contrast", "SVSR_Incorrect", "SVSR_Correct"))
+model30 <- subset(df2, select = c("NM_full", "Total_Use", "SDSR_Contrast", "SDSR_Incorrect", "SDSR_Correct"))
+head(model14)
 
-
-# heat map of all correlations:
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# Heat map of all correlations:
 cormat <- round(cor(model14),2)
 head(cormat)
 
@@ -46,7 +48,7 @@ upper_tri
 melted_cormat <- melt(upper_tri, na.rm = TRUE)
 head(melted_cormat)
 
-ggplot(data = melted_cormat, aes(Var2, Var1, fill = value))+
+ggheatmap <- ggplot(data = melted_cormat, aes(Var2, Var1, fill = value))+
   geom_tile(color = "black")+
   scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
                        midpoint = 0, limit = c(-1,1), space = "Lab", 
@@ -56,8 +58,22 @@ ggplot(data = melted_cormat, aes(Var2, Var1, fill = value))+
                                    size = 12, hjust = 1))+
   coord_fixed()
   
+ggheatmap + 
+  geom_text(aes(Var2, Var1, label = value), color = "black", size = 4) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.ticks = element_blank(),
+    legend.justification = c(1, 0),
+    #legend.position = c(0.6, 0.7),
+    legend.direction = "horizontal")+
+  guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
+                               title.position = "top", title.hjust = 0.5))
 
-
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Partial Correlations
 
 # calculate the correlations between each pair with all other variables are adjusted 
@@ -85,48 +101,12 @@ partial_correlation <- function(df) {
 }
 
 pcor <- partial_correlation(df)
-cormat2 <- pcor$estimate
 
-# Get lower triangle of the correlation matrix
-get_lower_tri<-function(cormat2){
-  cormat[upper.tri(cormat2)] <- NA
-  return(cormat2)
-}
-# Get upper triangle of the correlation matrix
-get_upper_tri <- function(cormat2){
-  cormat[lower.tri(cormat2)]<- NA
-  return(cormat2)
-}
-
-upper_tri <- get_upper_tri(cormat2)
-upper_tri
-
-melted_cormat2 <- melt(upper_tri, na.rm = TRUE)
-head(melted_cormat2)
-
-ggplot(data = melted_cormat2, aes(Var2, Var1, fill = value))+
-  geom_tile(color = "black")+
-  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
-                       midpoint = 0, limit = c(-1,1), space = "Lab", 
-                       name="Pearson\nCorrelation") +
-  theme_minimal()+ 
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
-                                   size = 12, hjust = 1))+
-  coord_fixed()
-
-
-
-
-
-
-
-
-
-
+# Plot
 library(ggcorrplot)
 ggcorrplot(pcor$estimate,
            method = "square",  #"square" (default), "circle"
-           type = "full", # "full" (default), "lower" or "upper" display.
+           type = "lower", # "full" (default), "lower" or "upper" display.
            hc.order = TRUE, #logical value. If TRUE, correlation matrix will be hc.ordered using hclust function.
            outline.col = "black", #the outline color of square or circle. Default "gray"
            ggtheme = ggplot2::theme_classic, #Change theme
