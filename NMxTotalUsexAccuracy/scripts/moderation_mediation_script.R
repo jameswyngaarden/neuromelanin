@@ -37,7 +37,7 @@ head(df2)
 #process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
-process(data = df2, y = "SDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
+process(data = df2, y = "Total_Use", x = "SDSR_Contrast", w = "NM_full", model = 1)
 
 # Moderation using lm
 model = lm(SVSR_Contrast ~ Total_Use * NM_full, 
