@@ -12,7 +12,7 @@ datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/
 #install.packages("ggplot2")
 #install.packages("sjPlot")
 #install.packages("reshape2")
-install.packages("interaction")
+install.packages("interactions")
 
 # load packages
 library("readxl")
@@ -24,7 +24,7 @@ library("performance")
 library("ggplot2")
 library("sjPlot")
 library("reshape2")
-library("interaction")
+library("interactions")
 
 # import data
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
@@ -39,10 +39,10 @@ head(df2)
 #process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
-process(data = df2, y = "Total_Use", x = "MDSL_Contrast", w = "NM_vstri", model = 1)
+process(data = df2, y = "SDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
 
 # Moderation using lm
-model = lm(Total_Use ~ MDSL_Contrast * NM_vstri, 
+model = lm(SDSR_Contrast ~ Total_Use * NM_full, 
            data=na.omit(df2))
 summary(model)
 
@@ -52,7 +52,8 @@ interaction <- plot_model(model, type = "int",
                           show.data = TRUE)
 print(interaction)
 
-sim_slopes(model, pred = var1, modx = var2, jnplot = TRUE)
+# Plot Johnson-Neyman
+sim_slopes(model, pred = Total_Use , modx = NM_full, jnplot = TRUE, title = "J-N Plot for SDSR_Contrast Model")
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Normality checks:
