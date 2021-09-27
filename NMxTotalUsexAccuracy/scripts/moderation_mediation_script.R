@@ -30,6 +30,9 @@ library("interactions")
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
 head(df2)
 
+df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects_deceived-only.xlsx")
+head(df3)
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Mediation analyses
 
@@ -39,11 +42,11 @@ head(df2)
 #process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
-process(data = df2, y = "SDSL_Contrast", x = "Total_Use", w = "NM_full", model = 1)
+process(data = df3, y = "SVSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
 
 # Moderation using lm
-model = lm(SDSR_Contrast ~ Total_Use * NM_full, 
-           data=na.omit(df2))
+model = lm(SVSR_Contrast ~ Total_Use * NM_full, 
+           data=na.omit(df3))
 summary(model)
 
 # Plotting simple slopes 10 Aug 2021
@@ -69,3 +72,27 @@ ks.test(model$residuals, "pnorm")
 
 check_normality(model)
 check_zeroinflation(model)
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Set Input Variables
+use <- df3$Total_Use
+nm <- df3$NM_full
+
+# stats for contrast
+cor <- cor.test(use, nm, method = "pearson")
+cor
+
+# scatter plot for contrast
+plot(nm, use, pch=19,
+     main = "NM Full & Total Substance Use",
+     xlab = "NM Full Signal",
+     ylab = "Total Substance Use",
+     col = "blue")
+abline(lm(use ~ nm))
+
+
+
+
+
+
