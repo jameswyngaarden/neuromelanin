@@ -33,7 +33,7 @@ ancova <- aov(y1 ~ df1$Domain + df1$Acc + df1$NM_full)
 interaction <- aov(y1 ~ df1$Domain * df1$Acc * df1$NM_full)
 
 # print results
-print("Left Ventral Striatum ANCOVA Results")
+print("Left Ventral Striatum Domain x Acc x NM ANCOVA Results")
 summary(ancova)
 summary(interaction)
 
@@ -93,7 +93,7 @@ ancova <- aov(y1 ~ df1$Domain + df1$Acc + df1$NM_full)
 interaction <- aov(y1 ~ df1$Domain * df1$Acc * df1$NM_full)
 
 # print results
-print("Right Ventral Striatum ANCOVA Results")
+print("Right Ventral Striatum Domain x Acc x NM ANCOVA Results")
 summary(ancova)
 summary(interaction)
 
@@ -153,7 +153,7 @@ ancova <- aov(y1 ~ df1$Domain + df1$Acc + df1$NM_full)
 interaction <- aov(y1 ~ df1$Domain * df1$Acc * df1$NM_full)
 
 # print results
-print("Left Dorsal Striatum ANCOVA Results")
+print("Left Dorsal Striatum Domain x Acc x NM ANCOVA Results")
 summary(ancova)
 summary(interaction)
 
@@ -213,7 +213,7 @@ ancova <- aov(y1 ~ df1$Domain + df1$Acc + df1$NM_full)
 interaction <- aov(y1 ~ df1$Domain * df1$Acc * df1$NM_full)
 
 # print results
-print("Right Dorsal Striatum ANCOVA Results")
+print("Right Dorsal Striatum Domain x Acc x NM ANCOVA Results")
 summary(ancova)
 summary(interaction)
 
