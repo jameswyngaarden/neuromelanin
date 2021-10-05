@@ -30,7 +30,7 @@ library("interactions")
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
 head(df2)
 
-df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects_deceived-only.xlsx")
+df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
 head(df3)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -42,10 +42,10 @@ head(df3)
 #process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
-process(data = df3, y = "SVSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
+process(data = df3, y = "SDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
 
 # Moderation using lm
-model = lm(SVSR_Contrast ~ Total_Use * NM_full, 
+model = lm(SDSR_Contrast ~ Total_Use * NM_full, 
            data=na.omit(df3))
 summary(model)
 

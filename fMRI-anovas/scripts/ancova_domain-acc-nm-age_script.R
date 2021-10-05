@@ -24,6 +24,17 @@ library("reshape2")
 # load data
 df1 <- read_excel("~/Documents/GitHub/neuromelanin/fMRI-anovas/data/NMxPositiveAccuracy_anova3way.xlsx")
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
+marijuana_use <- read_excel("~/Documents/GitHub/neuromelanin/fMRI-anovas/data/ESI-single-items_marijuana-use.xlsx")
+drug_use <- read_excel("~/Documents/GitHub/neuromelanin/fMRI-anovas/data/ESI-single-items_drug-use.xlsx")
+alcohol_use <- read_excel("~/Documents/GitHub/neuromelanin/fMRI-anovas/data/ESI-single-items_alcohol-use.xlsx")
+
+
+# quick calculation: cronbach's alpha
+library("ltm")
+
+cronbach.alpha(marijuana_use)
+cronbach.alpha(drug_use)
+cronbach.alpha(alcohol_use)
 
 
 
