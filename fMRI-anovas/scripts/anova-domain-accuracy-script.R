@@ -247,3 +247,117 @@ Dom_plot <- ggplot(Dom.emmeans.df, aes(x=Dom.levels, y=Dom.emmeans)) +
   geom_errorbar(aes(ymin=Dom.emmeans-se, ymax=Dom.emmeans+se), width=.2)
 Dom_plot
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+# anova: domain x accuracy, ventral striatum
+y1 <- df1$Ventral
+anova <- aov(y1 ~ df1$Domain + df1$Acc)
+interaction <- aov(y1 ~ df1$Domain * df1$Acc)
+
+# print results
+print("Ventral Striatum Domain x Accuracy ANOVA Results")
+summary(anova)
+summary(interaction)
+
+# plot the interaction
+ggboxplot(df1, x = "Acc", y = "Ventral", color = "Domain",
+          palette = c("darkgreen", "blue"),
+          ylab = "Percent Signal Change, Ventral Striatum",
+          xlab = "Accuracy",
+          main = "Domain x Accuracy, Ventral Striatum")
+
+# calculate estimated marginal means (EMMs)
+(frg <- ref_grid(interaction))
+emmeans(frg, "Acc")
+emmeans(frg, "Domain")
+
+# plot estimated marginal means for accuracy (avg across domain) & average striatal activation
+emcorr <- 0.0390
+emincorr <- -0.0484
+emmon <- -0.0264
+emsoc <- 0.0170
+se <- 0.0134
+
+# test for main effects; doesn't work, doesn't like that it's a single var (i.e., needs to see the values that created this avg)
+t.test(emcorr, emincorr)
+t.test(emmon, emsoc)
+
+# plot main effects of accuracy and domain:
+Acc.levels <- c("Incorrect", "Correct")
+Acc.emmeans <- c(emincorr, emcorr) #input accuracy emmeans
+Acc.emmeans.df <- data.frame(Acc.levels, Acc.emmeans)
+
+Acc_plot <- ggplot(Acc.emmeans.df, aes(x=Acc.levels, y=Acc.emmeans)) + 
+  ggtitle("Striatal activation by Accuracy, Ventral")+
+  xlab("Accuracy")+ylab("Percent signal change, striatal activation")+
+  geom_col(fill = "pink")+
+  geom_errorbar(aes(ymin=Acc.emmeans-se, ymax=Acc.emmeans+se), width=.2) #input accuracy emmeans SE
+Acc_plot
+
+Dom.levels <- c("Monetary", "Social")
+Dom.emmeans <- c(emmon, emsoc)
+Dom.emmeans.df <- data.frame(Dom.levels, Dom.emmeans)
+
+Dom_plot <- ggplot(Dom.emmeans.df, aes(x=Dom.levels, y=Dom.emmeans)) + 
+  ggtitle("Striatal activation by Domain, Ventral")+
+  xlab("Domain")+ylab("Percent signal change, striatal activation")+
+  geom_col(fill = "pink")+
+  geom_errorbar(aes(ymin=Dom.emmeans-se, ymax=Dom.emmeans+se), width=.2)
+Dom_plot
+
+# anova: domain x accuracy, dorsal striatum
+y1 <- df1$Dorsal
+anova <- aov(y1 ~ df1$Domain + df1$Acc)
+interaction <- aov(y1 ~ df1$Domain * df1$Acc)
+
+# print results
+print("Dorsal Striatum Domain x Accuracy ANOVA Results")
+summary(anova)
+summary(interaction)
+
+# plot the interaction
+ggboxplot(df1, x = "Acc", y = "Dorsal", color = "Domain",
+          palette = c("darkgreen", "blue"),
+          ylab = "Percent Signal Change, Dorsal Striatum",
+          xlab = "Accuracy",
+          main = "Domain x Accuracy, Dorsal Striatum")
+
+# calculate estimated marginal means (EMMs)
+(frg <- ref_grid(interaction))
+emmeans(frg, "Acc")
+emmeans(frg, "Domain")
+
+# plot estimated marginal means for accuracy (avg across domain) & average striatal activation
+emcorr <- 0.0368
+emincorr <- -0.0256
+emmon <- -0.000586
+emsoc <- 0.011787
+se <- 0.0114
+
+# test for main effects; doesn't work, doesn't like that it's a single var (i.e., needs to see the values that created this avg)
+t.test(emcorr, emincorr)
+t.test(emmon, emsoc)
+
+# plot main effects of accuracy and domain:
+Acc.levels <- c("Incorrect", "Correct")
+Acc.emmeans <- c(emincorr, emcorr) #input accuracy emmeans
+Acc.emmeans.df <- data.frame(Acc.levels, Acc.emmeans)
+
+Acc_plot <- ggplot(Acc.emmeans.df, aes(x=Acc.levels, y=Acc.emmeans)) + 
+  ggtitle("Striatal activation by Accuracy, Dorsal")+
+  xlab("Accuracy")+ylab("Percent signal change, striatal activation")+
+  geom_col(fill = "pink")+
+  geom_errorbar(aes(ymin=Acc.emmeans-se, ymax=Acc.emmeans+se), width=.2) #input accuracy emmeans SE
+Acc_plot
+
+Dom.levels <- c("Monetary", "Social")
+Dom.emmeans <- c(emmon, emsoc)
+Dom.emmeans.df <- data.frame(Dom.levels, Dom.emmeans)
+
+Dom_plot <- ggplot(Dom.emmeans.df, aes(x=Dom.levels, y=Dom.emmeans)) + 
+  ggtitle("Striatal activation by Domain, Dorsal")+
+  xlab("Domain")+ylab("Percent signal change, striatal activation")+
+  geom_col(fill = "pink")+
+  geom_errorbar(aes(ymin=Dom.emmeans-se, ymax=Dom.emmeans+se), width=.2)
+Dom_plot
+

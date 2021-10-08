@@ -28,12 +28,12 @@ df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMx
 
 
 # ancova: domain x accuracy x neuromelanin, left ventral striatum
-y1 <- df1$VSL
+y1 <- df1$Ventral
 ancova <- aov(y1 ~ df1$Domain + df1$Acc + df1$NM_full)
 interaction <- aov(y1 ~ df1$Domain * df1$Acc * df1$NM_full)
 
 # print results
-print("Left Ventral Striatum Domain x Acc x NM ANCOVA Results")
+print("Ventral Striatum Domain x Acc x NM ANCOVA Results")
 summary(ancova)
 summary(interaction)
 
