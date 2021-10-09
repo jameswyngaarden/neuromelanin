@@ -23,10 +23,11 @@ library("reshape2")
 
 # load data
 df1 <- read_excel("~/Documents/GitHub/neuromelanin/fMRI-anovas/data/NMxPositiveAccuracy_anova3way.xlsx")
-df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
+df2 <- read_excel("~/Documents/GitHub/neuromelanin/fMRI-anovas/data/NMxPositiveAccuracy_maineffects.xlsx")
 marijuana_use <- read_excel("~/Documents/GitHub/neuromelanin/fMRI-anovas/data/ESI-single-items_marijuana-use.xlsx")
 drug_use <- read_excel("~/Documents/GitHub/neuromelanin/fMRI-anovas/data/ESI-single-items_drug-use.xlsx")
 alcohol_use <- read_excel("~/Documents/GitHub/neuromelanin/fMRI-anovas/data/ESI-single-items_alcohol-use.xlsx")
+
 
 
 # quick calculation: cronbach's alpha
@@ -85,3 +86,23 @@ summary(ancova)
 summary(interaction)
 
 
+
+# ancova: domain x accuracy x neuromelanin, ventral striatum
+y1 <- df1$Ventral
+ancova <- aov(y1 ~ df1$Domain + df1$Acc + df1$NM_full + df1$Age)
+interaction <- aov(y1 ~ df1$Domain * df1$Acc * df1$NM_full * df1$Age)
+
+# print results
+print("Ventral Striatum Domain x Acc x NM x Age ANCOVA Results")
+summary(ancova)
+summary(interaction)
+
+# ancova: domain x accuracy x neuromelanin, ventral striatum
+y1 <- df1$Dorsal
+ancova <- aov(y1 ~ df1$Domain + df1$Acc + df1$NM_full + df1$Age)
+interaction <- aov(y1 ~ df1$Domain * df1$Acc * df1$NM_full * df1$Age)
+
+# print results
+print("Dorsal Striatum Domain x Acc x NM x Age ANCOVA Results")
+summary(ancova)
+summary(interaction)
