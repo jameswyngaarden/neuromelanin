@@ -28,6 +28,7 @@ model14 <- subset(df2, select = c("NM_full", "Total_Use", "SVSR_Contrast", "SVSR
 model14a <- subset(df2, select = c("NM_full", "Total_Use", "SVSR_Contrast"))
 model30 <- subset(df2, select = c("NM_full", "Total_Use", "SDSR_Contrast", "SDSR_Incorrect", "SDSR_Correct"))
 model30a <- subset(df2, select = c("NM_full", "Total_Use", "SDSR_Contrast"))
+model_age <- subset(df2, select = c("NM_full", "Total_Use", "Age"))
 head(model14)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -148,6 +149,54 @@ ggheatmap +
   guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
                                title.position = "top", title.hjust = 0.5))
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# In one step:
+parcor <- partial.r(model_age)
+parcor <- round((parcor),2)
+parcor
+
+# Get lower triangle of the correlation matrix
+get_lower_tri<-function(parcor){
+  parcor[upper.tri(parcor)] <- NA
+  return(parcor)
+}
+# Get upper triangle of the correlation matrix
+get_upper_tri <- function(parcor){
+  parcor[lower.tri(parcor)]<- NA
+  return(parcor)
+}
+
+upper_tri <- get_upper_tri(parcor)
+upper_tri
+
+melted_parcor <- melt(upper_tri, na.rm = TRUE)
+head(melted_parcor)
+melted_parcor
+
+ggheatmap <- ggplot(data = melted_parcor, aes(Var2, Var1, fill = value))+
+  geom_tile(color = "black")+
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1,1), space = "Lab", 
+                       name="Partial Pearson\nCorrelation") +
+  theme_minimal()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                   size = 12, hjust = 1))+
+  coord_fixed()
+
+ggheatmap + 
+  geom_text(aes(Var2, Var1, label = value), color = "black", size = 4) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.ticks = element_blank(),
+    legend.justification = c(1, 0),
+    legend.position = c(0.5, 0.7),
+    legend.direction = "horizontal")+
+  guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
+                               title.position = "top", title.hjust = 0.5))
 
 
 
