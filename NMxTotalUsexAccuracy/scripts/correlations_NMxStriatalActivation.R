@@ -66,9 +66,13 @@ monetary_contrast <- df2$MDSL_Contrast
 monetary_incorrect <- df2$MDSL_Incorrect
 monetary_correct <- df2$MDSL_Correct
 
+
+
 # stats for contrast
-cor <- cor.test(df2$NM_vstri, df2$MDSR_Contrast, method = "pearson")
+cor <- cor.test(df2$NM_full, df2$SDS_Contrast, method = "pearson")
 cor
+#
+
 
 # scatter plot for contrast
 plot(df2$NM_full, monetary_contrast, pch=19,

@@ -2,7 +2,7 @@
 # Jimmy Wyngaarden, July 2021
 
 # set working directory
-setwd("~/Documents/GitHub/neuromelanin/NMxAccuracy")
+setwd("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy")
 maindir <- getwd()
 datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/")
 
@@ -12,7 +12,7 @@ datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/
 #install.packages("ggplot2")
 #install.packages("sjPlot")
 #install.packages("reshape2")
-install.packages("interactions")
+#install.packages("interactions")
 
 # load packages
 library("readxl")
@@ -27,7 +27,7 @@ library("reshape2")
 library("interactions")
 
 # import data
-df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
+df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects_deceived-only_nov-8-21.xlsx")
 head(df2)
 
 df3 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
@@ -42,10 +42,10 @@ head(df3)
 #process(data = df2, y = "SDSR_Contrast", x = "Substance_Abuse", m = "NM_full", model = 4)
 
 # Moderation with PROCESS (model 1)
-process(data = df3, y = "SDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
+process(data = df2, y = "SDSR_Contrast", x = "Total_Use", w = "NM_full", model = 1)
 
 # Moderation using lm
-model = lm(SDSR_Contrast ~ Total_Use * NM_full, 
+model = lm(SVSR_Contrast ~ Total_Use * NM_full, 
            data=na.omit(df3))
 summary(model)
 
