@@ -20,7 +20,11 @@ library("reshape2")
 # import data
 df2 <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
 head(df2)
-model14 <- df2 %>% select(NM_full, Total_Use, SVSR_Contrast, SVSR_Incorrect, SVSR_Correct)
+
+
+# stats for correlation
+cor <- cor.test(df2$NM_full, df2$SDS_Contrast, method = "pearson")
+cor
 
 
 # heat map of all correlations:
@@ -55,10 +59,6 @@ ggplot(data = melted_cormat, aes(Var2, Var1, fill = value))+
         coord_fixed()
 
 
-######### MONETARY #########
-######### MONETARY #########
-######### MONETARY #########
-######### MONETARY #########
 ######### MONETARY #########
 
 # Set Input Variables
@@ -105,10 +105,6 @@ legend("bottomright", legend=c("Correct", "Incorrect"), col=c("green", "darkgree
 
 
 
-######### SOCIAL #########
-######### SOCIAL #########
-######### SOCIAL #########
-######### SOCIAL #########
 ######### SOCIAL #########
 
 # Input Variables:
