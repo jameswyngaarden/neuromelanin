@@ -7,8 +7,35 @@ setwd("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy")
 maindir <- getwd()
 datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/")
 
+# load packages
+library("readxl")
+library("ggpubr")
+library("plot")
+library("Hmisc")
+library("olsrr")
+library("performance")
+library("ggplot2")
+library("sjPlot")
+library("reshape2")
+library("interactions")
+
 # import data
 df_maineffects <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
+
+
+
+# # # # # # # Plot: NM-MRI signal and Substance Abuse (i.e., Total_Use) # # # # # # # 
+
+plot(df_maineffects$NM_full, df_maineffects$Total_Use, pch=19,
+     main = "Correlation between NM-MRI Signal and Substance Abuse",
+     xlab = "NM-MRI Signal",
+     ylab = "Substance Abuse",
+     col = "blue")
+abline(lm(df_maineffects$Total_Use ~ df_maineffects$NM_full))
+
+cor.test(df_maineffects$NM_full, df_maineffects$Total_Use, method = "pearson")
+
+
 
 # # # # # # # # # # # # # # # # Correlations # # # # # # # # # # # # # # # # # # 
 
