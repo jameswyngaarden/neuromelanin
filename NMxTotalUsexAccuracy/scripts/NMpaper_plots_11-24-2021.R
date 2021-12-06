@@ -26,7 +26,7 @@ abline(lm(df_maineffects$Substance_Abuse ~ df_maineffects$NM_full))
 
 cor.test(df_maineffects$NM_full, df_maineffects$Substance_Abuse, method = "pearson")
 
-# # # # # # Plot: NM-MRI signal and Substance Abuse  # # # # # 
+# # # # # # Plot: Full NM-MRI signal and Substance Abuse Voxels Signal # # # # # 
 
 plot(df_maineffects$NM_full, df_maineffects$Substance_Abuse_Voxels, pch=19,
      main = "Correlation between NM-MRI Signal and Substance Abuse Voxels Signal",
