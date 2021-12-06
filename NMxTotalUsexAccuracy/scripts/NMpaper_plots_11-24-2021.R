@@ -11,7 +11,7 @@ datadir <- file.path("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/
 library("readxl")
 
 # import data
-df_maineffects <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects.xlsx")
+df_maineffects <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_maineffects_median-sub-abuse.xlsx")
 df_moderation <- read_excel("~/Documents/GitHub/neuromelanin/NMxTotalUsexAccuracy/data/NMxPositiveAccuracy_moderation.xlsx")
 
 
